@@ -1,0 +1,50 @@
+apply plugin: 'com.android.application'
+apply plugin: 'com.tencent.utp.utpPlugin'
+
+android {
+    compileSdkVersion 26
+    buildToolsVersion '24.0.2'
+
+
+    defaultConfig {
+        applicationId "com.example.demo4test"
+        minSdkVersion 18
+        targetSdkVersion 26
+        versionCode 1
+        versionName "1.0"
+
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+
+}
+
+dependencies {
+    compile fileTree(dir: 'libs', include: ['*.jar'])
+
+    compile 'com.android.support:appcompat-v7:26.1.0'
+    compile 'com.android.support.constraint:constraint-layout:1.0.2'
+}
+
+utpTest {
+    testScripts file("scripts") // 脚本所在目录
+    scriptsCommand "python scripts/utp_map_job_excuting.py"
+    caseSet "com.tencent.mig.demo4test.testcases.func.bvt.CircleTest"
+////    +",com.tencent.mig.demo4test.testcases.func.bvt.PolygonTest"
+    user "yoyoqin"
+    files{ // 测试脚本中定义的文件
+        debug_apk {
+            path "build/outputs/apk/demo4test-debug2.apk"
+        }
+        test_apk {
+            path "build/outputs/apk/demo4test-debug-androidTest.apk"
+        }
+    }
+}
